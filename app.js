@@ -14,6 +14,14 @@ var express = require('express')
 
 var app = express();
 
+
+var bitcoinWallet = {
+  host: process.env.EXPLORER_RPC_HOST || settings.wallet.host,
+  port: process.env.EXPLORER_RPC_PORT || settings.wallet.port,
+  user: process.env.EXPLORER_RPC_USER || settings.wallet.user,
+  pass: process.env.EXPLORER_RPC_PASSWORD || settings.wallet.pass
+};
+
 // bitcoinapi
 bitcoinapi.setWalletDetails(settings.wallet);
 if (settings.heavy != true) {
