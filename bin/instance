@@ -17,8 +17,15 @@ if (process.env.MONGODB_PASSWORD) {
 
 if (settings.dbsettings.user && settings.dbsettings.password) {
   dbString = settings.dbsettings.user + ':' + settings.dbsettings.password;
+  dbString += '@';
 }
-dbString = dbString + '@' + settings.dbsettings.address;
+
+if (process.env.MONGODB_HOST) {
+  dbString += process.env.MONGODB_HOST;
+} else {
+  dbString += settings.dbsettings.address;
+}
+
 dbString = dbString + ':' + settings.dbsettings.port;
 dbString = dbString + '/' + settings.dbsettings.database;
 
