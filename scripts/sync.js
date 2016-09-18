@@ -112,11 +112,22 @@ function exit() {
   });
 }
 
-var dbString = 'mongodb://' + settings.dbsettings.user;
-dbString = dbString + ':' + settings.dbsettings.password;
-dbString = dbString + '@' + settings.dbsettings.address;
-dbString = dbString + ':' + settings.dbsettings.port;
-dbString = dbString + '/' + settings.dbsettings.database;
+var dbString = 'mongodb://';
+if (process.env.MONGODB_USER) {
+  settings.dbsettings.user = process.env.MONGODB_USER;
+}
+if (process.env.MONGODB_PASSWORD) {
+  settings.dbsettings.password = process.env.MONGODB_PASSWORD;
+}
+if (settings.dbsettings.user && settings.dbsettings.password) {
+  dbString = settings.dbsettings.user + ':' + settings.dbsettings.password;
+  dbString += '@';
+}
+if (process.env.MONGODB_HOST) {
+  dbString += process.env.MONGODB_HOST;
+} else {
+  dbString += settings.dbsettings.address;
+}
 
 is_locked(function (exists) {
   if (exists) {
