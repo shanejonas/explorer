@@ -15,7 +15,7 @@ var express = require('express')
 var app = express();
 
 var bitcoinWallet = {
-  address: process.env.EXPLORER_RPC_HOST || settings.wallet.host,
+  host: process.env.EXPLORER_RPC_HOST || settings.wallet.host,
   port: process.env.EXPLORER_RPC_PORT || settings.wallet.port,
   user: process.env.EXPLORER_RPC_USER || settings.wallet.user,
   pass: process.env.EXPLORER_RPC_PASSWORD || settings.wallet.pass
@@ -25,8 +25,22 @@ var bitcoinWallet = {
 bitcoinapi.setWalletDetails(bitcoinWallet);
 
 if (settings.heavy != true) {
-  bitcoinapi.setAccess('only', ['getinfo', 'getnetworkhashps', 'getmininginfo','getdifficulty', 'getconnectioncount',
-    'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction', 'getpeerinfo', 'gettxoutsetinfo']);
+  bitcoinapi.setAccess('only', [
+    'getinfo',
+    'getnetworkhashps',
+    'getmininginfo',
+    'getdifficulty',
+    'getconnectioncount',
+    'getblockcount',
+    'getblockhash',
+    'getblock',
+    'getrawtransaction',
+    'getpeerinfo',
+    'gettxoutsetinfo',
+    'makekeypair', // TODO: remove this and move it client side
+    'sendrawtransaction',
+    'signrawtransaction'
+  ]);
 } else {
   // enable additional heavy api calls
   /*
@@ -43,7 +57,7 @@ if (settings.heavy != true) {
   bitcoinapi.setAccess('only', ['getinfo', 'getstakinginfo', 'getnetworkhashps', 'getdifficulty', 'getconnectioncount',
     'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction','getmaxmoney', 'getvote',
     'getmaxvote', 'getphase', 'getreward', 'getnextrewardestimate', 'getnextrewardwhenstr',
-    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo']);
+    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo', 'makekeypair', 'sendrawtransaction', 'signrawtransaction']);
 }
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
